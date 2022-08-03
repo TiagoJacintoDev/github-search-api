@@ -2,8 +2,9 @@ import Repository from './Repository';
 import Code from './Code';
 import Issues from './Issues';
 import Commits from './Commits';
+import SortOptionsMenu from '../elements/SortOptionsMenu';
 
-export default function DisplayResults({ data, typeOfQuery }) {
+export default function DisplayResults({ data, typeOfQuery, SortOptions }) {
   function name() {
     switch (typeOfQuery) {
       case 'repositories':
@@ -19,10 +20,11 @@ export default function DisplayResults({ data, typeOfQuery }) {
   return (
     <>
       <main>
-        <div className='results'>
+        <div className="results">
           <h2>
             {data.total_count || '0'} {name()} results
           </h2>
+          <SortOptionsMenu SortOptions={SortOptions} />
         </div>
 
         {typeOfQuery === 'repositories' && <Repository data={data} />}

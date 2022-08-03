@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+:root {
+  --border-color: #969696;
+}
+
+* {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+span {
+  display: flex;
+  gap: 3px;
+}
+
+img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+}
+
+a {
+  text-decoration: none;
+  color: #0969da;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #0969da !important;
+}
+
+.container {
+  padding-block: 20px;
+  width: min(1200px, 100% - 40px);
+}
+
+header > h2 {
+  margin-bottom: 10px;
+}
+
+.search-input {
+  width: min(550px, 70%);
+  line-height: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  outline-color: rgb(48, 48, 146);
+  margin-right: 5px;
+}
+
+.search-info {
+  margin-top: 15px;
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  line-height: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  line-height: 20px;
+  font-size: 20px;
+}
+
+aside > ul > li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+:where(aside > ul > li:not(:last-child)) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+aside > ul {
+  list-style: none;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+@media (max-width: 50em) {
+  .search-info {
+    display: block;
+  }
+
+  aside > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  :where(aside > ul > li) {
+    border-bottom: 0;
+  }
+
+  .results {
+    padding-block: 15px;
+  }
+}
+
+.results {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sort-options-menu {
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  padding-left: 5px;
+}
+
+.repository {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  font-size: 18px;
+  padding-block: 10px;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.item-info {
+  display: flex;
+  gap: 10px;
+}
+
+.item-topics {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+}
+
+.item-topics > li {
+  background-color: #0969da;
+  color: white;
+  border-radius: 10px;
+  padding: 5px 10px;
+  line-height: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+a.profile,
+.profile > a {
+  color: #2b2f33;
+  font-weight: 700;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}

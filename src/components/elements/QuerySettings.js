@@ -7,8 +7,8 @@ export default function QuerySettings({ QueryLanguage, QueryType }) {
         <li>Commits</li>
         <li>Issues</li>
       </ul>
+      <h3>Languages</h3>
       <ul onClick={QueryLanguage}>
-        <h3>Languages</h3>
         <li>JavaScript</li>
         <li>Java</li>
         <li>HTML</li>

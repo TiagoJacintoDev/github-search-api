@@ -1,14 +1,14 @@
 import './App.css';
 import { Octokit } from '@octokit/core';
-import { useEffect, useState } from 'react';
-import SearchBar from './components/Elements/SearchBar';
-import DisplayResults from './components/Pages/DisplayResults';
-import Footer from './components/Elements/Footer';
-import QuerySettings from './components/Elements/QuerySettings';
-import SortOptionsMenu from './components/Elements/SortOptionsMenu';
+import { useEffect, useMemo, useState } from 'react';
+import SearchBar from './components/elements/SearchBar';
+import DisplayResults from './components/pages/DisplayResults';
+import Footer from './components/elements/Footer';
+import QuerySettings from './components/elements/QuerySettings';
+import Pagination from './components/elements/Pagination';
 
 export default function App() {
-  const key = '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';
+  const key = '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';
   const octokit = new Octokit({ auth: key });
 
   const [data, setData] = useState(null);
@@ -18,13 +18,18 @@ export default function App() {
     language: '',
     sort: '',
     order: '',
+    page: 1,
+    itemsPerPage: '10',
   });
 
-  console.log(query);
+  const maxPages = useMemo(
+    () => 1000 / query.itemsPerPage,
+    [query.itemsPerPage]
+  );
 
-  const request = async () => {
+  const fetch = async () => {
     const res = await octokit.request(
-      `GET /search/${query.type}?q=${query.text}+language%3A${query.language}&sort=${query.sort}&order=${query.order}`,
+      `GET /search/${query.type}?q=${query.text}+language%3A${query.language}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
       {}
     );
     const data = await res.data;
@@ -32,28 +37,8 @@ export default function App() {
   };
 
   useEffect(() => {
-    query.text && request();
+    query.text && fetch();
   }, [query]);
-
-  function queryText(e) {
-    e.preventDefault();
-    setQuery(oldQuery => ({
-      ...oldQuery,
-      text: e.target.value,
-    }));
-  }
-
-  function sortOptions(e) {
-    e.target.firstChild.childNodes.forEach(option => {
-      if (option.value === e.target.value) {
-        setQuery(oldQuery => ({
-          ...oldQuery,
-          sort: option.dataset.sort,
-          order: option.dataset.order,
-        }));
-      }
-    });
-  }
 
   function queryText(e) {
     e.preventDefault();
@@ -77,27 +62,60 @@ export default function App() {
     }));
   }
 
-  return (
-    <div className='container'>
-      <SearchBar QueryText={e => queryText(e)} data={data} />
+  function sortOptions(e) {
+    e.target.firstChild.childNodes.forEach(option => {
+      if (option.value === e.target.value) {
+        setQuery(oldQuery => ({
+          ...oldQuery,
+          sort: option.dataset.sort,
+          order: option.dataset.order,
+        }));
+      }
+    });
+  }
 
-      {data !== null && (
+  function changePage(e) {
+    setQuery(oldQuery => ({
+      ...oldQuery,
+      page:
+        +e.target.dataset.page > 0 && +e.target.dataset.page <= maxPages
+          ? +e.target.dataset.page
+          : query.page,
+    }));
+  }
+
+  function selectItemsPerPage(e) {
+    setQuery(oldQuery => ({
+      ...oldQuery,
+      itemsPerPage: e.target.value,
+    }));
+  }
+
+  return (
+    <div className="container">
+      <SearchBar data={data} QueryText={e => queryText(e)} />
+      {data && (
         <>
-          <SortOptionsMenu SortOptions={e => sortOptions(e)} />
-          <QuerySettings
-            QueryLanguage={e => queryLanguage(e)}
-            QueryType={e => queryType(e)}
+          <div className="search-info">
+            <QuerySettings
+              QueryLanguage={e => queryLanguage(e)}
+              QueryType={e => queryType(e)}
+            />
+            <DisplayResults
+              SortOptions={e => sortOptions(e)}
+              data={data}
+              typeOfQuery={query.type}
+            />
+          </div>
+          <Pagination
+            page={query.page}
+            maxPages={maxPages}
+            ChangePage={e => changePage(e)}
+            SelectItemsPerPage={e => selectItemsPerPage(e)}
           />
-          <DisplayResults
-            data={data}
-            typeOfQuery={query.type}
-            SortOptions={e => sortOptions(e)}
-            QueryLanguage={e => queryLanguage(e)}
-            QueryType={e => queryType(e)}
-          />
+          <Footer />
         </>
       )}
-      <Footer />
     </div>
   );
 }

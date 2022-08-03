@@ -4,31 +4,32 @@ import { BsFillCircleFill } from 'react-icons/bs';
 
 export default function Repository({ data }) {
   return (
-    <div className='repository'>
+    <div className="repository">
       {data.items?.map(item => (
-        <div key={item.node_id} className='item'>
+        <div key={item.node_id} className="item">
           <a href={item.html_url}>
-            <RiGitRepositoryLine color='black' />
-            {item.full_name}
+            <span>
+              <RiGitRepositoryLine color="black" />
+              {item.full_name}
+            </span>
           </a>
           <p>{item.description}</p>
-          <ul>
+          <ul className="item-topics">
             {item.topics?.map(topic => (
               <li>{topic}</li>
             ))}
           </ul>
-          <div className='item-info'>
-            <p>
+          <div className="item-info">
+            <span>
               <FiStar />
               {item.stargazers_count}
-            </p>
-            <p>
+            </span>
+            <span>
               <BsFillCircleFill />
               {item.language}
-            </p>
-            <p>Updated on {item.pushed_at?.split('T')[0]}</p>
+            </span>
+            <span>Updated on {item.pushed_at?.split('T')[0]}</span>
           </div>
-          <hr />
         </div>
       ))}
     </div>
