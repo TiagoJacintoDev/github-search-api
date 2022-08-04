@@ -2,6 +2,8 @@
 
 :root {
   --border-color: #969696;
+  --border-radius-circle: 50px;
+  --border-radius-semi-square: 7px;
 }
 
 * {
@@ -24,7 +26,7 @@ span {
 img {
   width: 35px;
   height: 35px;
-  border-radius: 50px;
+  border-radius: var(--border-radius-circle);
 }
 
 a {
@@ -42,15 +44,11 @@ a:hover {
   width: min(1200px, 100% - 40px);
 }
 
-header > h2 {
-  margin-bottom: 10px;
-}
-
 .search-input {
   width: min(550px, 70%);
   line-height: 20px;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: var(--border-radius-semi-square);
   border: 1px solid var(--border-color);
   outline-color: rgb(48, 48, 146);
   margin-right: 5px;
@@ -65,7 +63,7 @@ header > h2 {
 .button {
   line-height: 20px;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: var(--border-radius-semi-square);
   border: 1px solid var(--border-color);
   cursor: pointer;
 }
@@ -78,7 +76,6 @@ aside {
   line-height: 20px;
   font-size: 20px;
 }
-
 aside > ul > li {
   padding: 5px 10px;
   cursor: pointer;
@@ -91,7 +88,20 @@ aside > ul > li {
 aside > ul {
   list-style: none;
   border: 1px solid var(--border-color);
-  border-radius: 5px;
+  border-radius: var(--border-radius-semi-square);
+}
+
+.results {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.results-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 50em) {
@@ -110,21 +120,21 @@ aside > ul {
   }
 
   .results {
-    padding-block: 15px;
+    padding-block: 12px;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .results-number {
+    font-size: 21px;
+    order: 2;
   }
 }
 
-.results {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-color);
-}
-
 .sort-options-menu {
-  border-radius: 5px;
+  border-radius: var(--border-radius-semi-square);
   border: 1px solid var(--border-color);
-  padding-left: 5px;
+  padding: 7px;
 }
 
 .repository {
@@ -138,6 +148,21 @@ aside > ul {
   gap: 5px;
   display: flex;
   flex-direction: column;
+}
+
+@media (max-width: 50em) {
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
+  aside {
+    font-size: 17px;
+  }
+
+  .item {
+    font-size: 16px;
+  }
 }
 
 .item:not(:last-child) {
@@ -158,7 +183,7 @@ aside > ul {
 .item-topics > li {
   background-color: #0969da;
   color: white;
-  border-radius: 10px;
+  border-radius: var(--border-radius-semi-square);
   padding: 5px 10px;
   line-height: 20px;
 }
@@ -173,6 +198,39 @@ a.profile,
 .profile > a {
   color: #2b2f33;
   font-weight: 700;
+}
+
+.pagination {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.pagination-pages {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+}
+
+.pagination-pages > li {
+  cursor: pointer;
+  border-radius: var(--border-radius-semi-square);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+}
+
+.pagination-pages > li:is(.previous, .next) {
+  padding-inline: 20px;
+}
+
+.pagination-pages > .current {
+  background-color: aqua;
 }
 
 footer {

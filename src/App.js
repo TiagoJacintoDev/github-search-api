@@ -8,10 +8,11 @@ import QuerySettings from './components/elements/QuerySettings';
 import Pagination from './components/elements/Pagination';
 
 export default function App() {
-  const key = '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';
+  const key = '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';
   const octokit = new Octokit({ auth: key });
 
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useState({
     type: 'repositories',
     text: '',
@@ -32,8 +33,10 @@ export default function App() {
       `GET /search/${query.type}?q=${query.text}+language%3A${query.language}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
       {}
     );
+    const error = await res.status;
     const data = await res.data;
     setData(data);
+    setError(error);
   };
 
   useEffect(() => {

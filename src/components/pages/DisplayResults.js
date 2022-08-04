@@ -21,7 +21,7 @@ export default function DisplayResults({ data, typeOfQuery, SortOptions }) {
     <>
       <main>
         <div className="results">
-          <h2>
+          <h2 className="results-number">
             {data.total_count || '0'} {name()} results
           </h2>
           <SortOptionsMenu SortOptions={SortOptions} />
