@@ -1,3 +1,5 @@
+import parseRegex from '../../parseRegex';
+
 export default function Commits({ data }) {
   return (
     <div className="commits">
@@ -12,7 +14,7 @@ export default function Commits({ data }) {
               {item.repository?.full_name}
             </a>
           </span>
-          <a href={item.html_url}>{item.commit?.message}</a>
+          <a href={item.html_url}>{parseRegex(item.commit?.message)}</a>
           <span>
             <a className="profile" href={item.author?.html_url}>
               {item.commit?.author?.name}

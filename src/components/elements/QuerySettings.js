@@ -1,4 +1,4 @@
-export default function QuerySettings({ QueryLanguage, QueryType }) {
+export default function QuerySettings({ QueryType, QueryLanguage }) {
   return (
     <aside>
       <ul onClick={QueryType}>

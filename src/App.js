@@ -8,35 +8,39 @@ import QuerySettings from './components/elements/QuerySettings';
 import Pagination from './components/elements/Pagination';
 
 export default function App() {
-  const key = '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';
+  const key = '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';
   const octokit = new Octokit({ auth: key });
 
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
   const [query, setQuery] = useState({
     type: 'repositories',
     text: '',
-    language: '',
+    languages: [],
     sort: '',
     order: '',
     page: 1,
     itemsPerPage: '10',
   });
 
-  const maxPages = useMemo(
-    () => 1000 / query.itemsPerPage,
-    [query.itemsPerPage]
-  );
+  const languages = query.languages.map(language => `+language%3A${language}`);
+
+  const maxPages = useMemo(() => {
+    if (data) {
+      if (data.total_count >= 1000) {
+        return 1000 / query.itemsPerPage;
+      } else {
+        return Math.ceil(data.total_count / query.itemsPerPage);
+      }
+    }
+  }, [query.itemsPerPage, data]);
 
   const fetch = async () => {
     const res = await octokit.request(
-      `GET /search/${query.type}?q=${query.text}+language%3A${query.language}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
+      `GET /search/${query.type}?q=${query.text}${languages}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
       {}
     );
-    const error = await res.status;
     const data = await res.data;
     setData(data);
-    setError(error);
   };
 
   useEffect(() => {
@@ -54,7 +58,7 @@ export default function App() {
   function queryLanguage(e) {
     setQuery(oldQuery => ({
       ...oldQuery,
-      language: e.target.innerText,
+      languages: [...languages, e.target.innerText],
     }));
   }
 

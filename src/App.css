@@ -76,9 +76,14 @@ aside {
   line-height: 20px;
   font-size: 20px;
 }
+
 aside > ul > li {
   padding: 5px 10px;
   cursor: pointer;
+}
+
+aside > ul > li[data-selected] {
+  background-color: #0969da;
 }
 
 :where(aside > ul > li:not(:last-child)) {
@@ -150,6 +155,16 @@ aside > ul {
   flex-direction: column;
 }
 
+.item p {
+  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
 @media (max-width: 50em) {
   img {
     width: 30px;
@@ -162,6 +177,22 @@ aside > ul {
 
   .item {
     font-size: 16px;
+  }
+
+  .pagination-pages > li:is(#plus2, #plus3) {
+    display: none;
+  }
+}
+
+@media (max-width: 40em) {
+  .pagination-pages > li:is(#plus1, #max-1) {
+    display: none;
+  }
+}
+
+@media (max-width: 30em) {
+  .pagination-pages > li:not(.previous, .next) {
+    display: none;
   }
 }
 
@@ -225,8 +256,16 @@ a.profile,
   border: 1px solid black;
 }
 
-.pagination-pages > li:is(.previous, .next) {
+.pagination-pages > li:is(.next) {
   padding-inline: 20px;
+}
+.pagination-pages > li:is(.previous) {
+  width: 85px;
+  padding-inline: 10px;
+}
+.pagination-pages > li[data-can-change='true'] {
+  cursor: default;
+  opacity: 0.4;
 }
 
 .pagination-pages > .current {

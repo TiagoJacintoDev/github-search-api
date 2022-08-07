@@ -1,6 +1,7 @@
 import { RiGitRepositoryLine } from 'react-icons/ri';
 import { FiStar } from 'react-icons/fi';
 import { BsFillCircleFill } from 'react-icons/bs';
+import parseRegex from '../../parseRegex';
 
 export default function Repository({ data }) {
   return (
@@ -13,7 +14,7 @@ export default function Repository({ data }) {
               {item.full_name}
             </span>
           </a>
-          <p>{item.description}</p>
+          <p>{parseRegex(item.description)}</p>
           <ul className="item-topics">
             {item.topics?.map(topic => (
               <li>{topic}</li>

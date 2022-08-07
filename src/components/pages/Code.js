@@ -1,3 +1,5 @@
+import parseRegex from '../../parseRegex';
+
 export default function Code({ data }) {
   return (
     <div className="code">
@@ -11,7 +13,7 @@ export default function Code({ data }) {
           <p>
             <a href={item.html_url}>{item.path}</a>
           </p>
-          <p>{item.repository?.description}</p>
+          <p>{parseRegex(item.repository?.description)}</p>
         </div>
       ))}
     </div>
