@@ -26,7 +26,6 @@ export default function DisplayResults({ data, typeOfQuery, SortOptions }) {
           </h2>
           <SortOptionsMenu SortOptions={SortOptions} />
         </div>
-
         {typeOfQuery === 'repositories' && <Repository data={data} />}
         {typeOfQuery === 'code' && <Code data={data} />}
         {typeOfQuery === 'commits' && <Commits data={data} />}

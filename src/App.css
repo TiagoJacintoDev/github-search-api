@@ -82,7 +82,15 @@ aside > ul > li {
   cursor: pointer;
 }
 
+@media (min-width: 50em) {
+  aside > ul > li[data-current='true'] {
+    border-right: 5px solid green;
+    border-radius: 3px;
+  }
+}
+
 aside > ul > li[data-selected] {
+  color: white;
   background-color: #0969da;
 }
 

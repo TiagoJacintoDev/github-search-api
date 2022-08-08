@@ -1,11 +1,17 @@
-export default function QuerySettings({ QueryType, QueryLanguage }) {
+import Repository from '../pages/Repository';
+
+export default function QuerySettings({
+  QueryType,
+  QueryLanguage,
+  typeOfQuery,
+}) {
   return (
     <aside>
       <ul onClick={QueryType}>
-        <li>Repositories</li>
-        <li>Code</li>
-        <li>Commits</li>
-        <li>Issues</li>
+        <li data-current={typeOfQuery === 'repositories'}>Repositories</li>
+        <li data-current={typeOfQuery === 'code'}>Code</li>
+        <li data-current={typeOfQuery === 'commits'}>Commits</li>
+        <li data-current={typeOfQuery === 'issues'}>Issues</li>
       </ul>
       <h3>Languages</h3>
       <ul onClick={QueryLanguage}>

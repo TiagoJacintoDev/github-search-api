@@ -8,7 +8,7 @@ import QuerySettings from './components/elements/QuerySettings';
 import Pagination from './components/elements/Pagination';
 
 export default function App() {
-  const key = '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';
+  const key = process.env.REACT_APP_API_KEY;
   const octokit = new Octokit({ auth: key });
 
   const [data, setData] = useState(null);
@@ -19,20 +19,12 @@ export default function App() {
     sort: '',
     order: '',
     page: 1,
-    itemsPerPage: '10',
+    itemsPerPage: 10,
   });
 
-  const languages = query.languages.map(language => `+language%3A${language}`);
+  console.log(query);
 
-  const maxPages = useMemo(() => {
-    if (data) {
-      if (data.total_count >= 1000) {
-        return 1000 / query.itemsPerPage;
-      } else {
-        return Math.ceil(data.total_count / query.itemsPerPage);
-      }
-    }
-  }, [query.itemsPerPage, data]);
+  const languages = query.languages.map(language => `+language%3A${language}`);
 
   const fetch = async () => {
     const res = await octokit.request(
@@ -56,10 +48,22 @@ export default function App() {
   }
 
   function queryLanguage(e) {
-    setQuery(oldQuery => ({
-      ...oldQuery,
-      languages: [...languages, e.target.innerText],
-    }));
+    e.target.toggleAttribute('data-selected');
+    setQuery(oldQuery => {
+      if (oldQuery.languages.includes(e.target.innerText)) {
+        return {
+          ...oldQuery,
+          languages: oldQuery.languages.filter(
+            language => language !== e.target.innerText
+          ),
+        };
+      } else {
+        return {
+          ...oldQuery,
+          languages: [...oldQuery.languages, e.target.innerText],
+        };
+      }
+    });
   }
 
   function queryType(e) {
@@ -81,44 +85,34 @@ export default function App() {
     });
   }
 
-  function changePage(e) {
+  function changePage(pageNumber) {
     setQuery(oldQuery => ({
       ...oldQuery,
-      page:
-        +e.target.dataset.page > 0 && +e.target.dataset.page <= maxPages
-          ? +e.target.dataset.page
-          : query.page,
-    }));
-  }
-
-  function selectItemsPerPage(e) {
-    setQuery(oldQuery => ({
-      ...oldQuery,
-      itemsPerPage: e.target.value,
+      page: pageNumber,
     }));
   }
 
   return (
     <div className="container">
-      <SearchBar data={data} QueryText={e => queryText(e)} />
+      <SearchBar data={data} QueryText={queryText} />
       {data && (
         <>
           <div className="search-info">
             <QuerySettings
-              QueryLanguage={e => queryLanguage(e)}
-              QueryType={e => queryType(e)}
+              typeOfQuery={query.type}
+              QueryLanguage={queryLanguage}
+              QueryType={queryType}
             />
             <DisplayResults
-              SortOptions={e => sortOptions(e)}
+              SortOptions={sortOptions}
               data={data}
               typeOfQuery={query.type}
             />
           </div>
           <Pagination
-            page={query.page}
-            maxPages={maxPages}
-            ChangePage={e => changePage(e)}
-            SelectItemsPerPage={e => selectItemsPerPage(e)}
+            ChangePage={changePage}
+            itemsPerPage={query.itemsPerPage}
+            items={data.total_count}
           />
           <Footer />
         </>
