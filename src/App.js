@@ -6,6 +6,7 @@ import DisplayResults from './components/pages/DisplayResults';
 import Footer from './components/elements/Footer';
 import QuerySettings from './components/elements/QuerySettings';
 import Pagination from './components/elements/Pagination';
+import { debounce } from 'lodash';
 
 export default function App() {
   const key = process.env.REACT_APP_API_KEY;
@@ -37,7 +38,22 @@ export default function App() {
 
   useEffect(() => {
     query.text && fetch();
-  }, [query]);
+  }, [
+    query?.type,
+    query?.text,
+    query?.languages,
+    query?.sort,
+    query?.order,
+    query?.page,
+    query?.itemsPerPage,
+  ]);
+
+  const debouncedFunctions = {
+    queryLanguage: useMemo(() => debounce(queryLanguage, 300)),
+    queryType: useMemo(() => debounce(queryType, 200)),
+    sortOptions: useMemo(() => debounce(sortOptions, 100), []),
+    changePage: useMemo(() => debounce(changePage, 100), []),
+  };
 
   function queryText(e) {
     e.preventDefault();
@@ -93,24 +109,24 @@ export default function App() {
   }
 
   return (
-    <div className="container">
+    <div className='container'>
       <SearchBar data={data} QueryText={queryText} />
       {data && (
         <>
-          <div className="search-info">
+          <div className='search-info'>
             <QuerySettings
               typeOfQuery={query.type}
-              QueryLanguage={queryLanguage}
-              QueryType={queryType}
+              QueryLanguage={debouncedFunctions.queryLanguage}
+              QueryType={debouncedFunctions.queryType}
             />
             <DisplayResults
-              SortOptions={sortOptions}
+              SortOptions={debouncedFunctions.sortOptions}
               data={data}
               typeOfQuery={query.type}
             />
           </div>
           <Pagination
-            ChangePage={changePage}
+            ChangePage={debouncedFunctions.changePage}
             itemsPerPage={query.itemsPerPage}
             items={data.total_count}
           />
