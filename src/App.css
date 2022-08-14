@@ -41,7 +41,14 @@ a:hover {
 
 .container {
   padding-block: 20px;
-  width: min(1200px, 100% - 40px);
+  width: min(1000px, 100% - 40px);
+}
+
+.progress-bar {
+  opacity: 0.8;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .search-input {
@@ -102,6 +109,10 @@ aside > ul {
   list-style: none;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-semi-square);
+}
+
+main {
+  width: 100%;
 }
 
 .results {
@@ -215,6 +226,7 @@ aside > ul {
 
 .item-topics {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   list-style: none;
 }
@@ -244,16 +256,15 @@ a.profile,
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 25px;
 }
 
-.pagination-pages {
+.pagination-list {
   display: flex;
   gap: 15px;
   list-style: none;
 }
 
-.pagination-pages > li {
+.pagination-list > li {
   cursor: pointer;
   border-radius: var(--border-radius-semi-square);
   display: flex;
@@ -261,33 +272,56 @@ a.profile,
   align-items: center;
   height: 50px;
   width: 50px;
-  border: 1px solid black;
+  border: 1px solid transparent;
 }
 
-.pagination-pages > li:is(.next) {
+.pagination-list
+  > li:is(:hover, :focus-visible):not(.disabled, .selected, .break) {
+  border: 1px solid rgb(43, 47, 51, 0.5);
+}
+
+.pagination-list > li.next {
   padding-inline: 20px;
 }
-.pagination-pages > li:is(.previous) {
+.pagination-list > li.previous {
   width: 85px;
   padding-inline: 10px;
 }
-.pagination-pages > li[data-can-change='true'] {
+.pagination-list > li.break {
+  cursor: default;
+}
+.pagination-list > li.disabled {
   cursor: default;
   opacity: 0.4;
 }
-
-.pagination-pages > .current {
+.pagination-list > .selected {
   background-color: aqua;
+}
+.pagination-list > .selected > a {
+  color: white !important;
+}
+.pagination-list > li > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #2b2f33;
+  text-decoration: none;
+}
+.pagination-list > li:not(.selected) > a:is(:hover, :focus-visible) {
+  color: black !important;
+  text-decoration: none;
+}
+
+@media (max-width: 50em) {
+  .pagination-list {
+    gap: 5px;
+    flex-wrap: wrap;
+  }
 }
 
 footer {
   margin-top: 20px;
   text-align: center;
-}
-
-.progress-bar {
-  opacity: 0.8;
-  position: absolute;
-  top: 0;
-  width: 100%;
 }

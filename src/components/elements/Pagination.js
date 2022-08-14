@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import ReactPaginate from 'react-paginate';
 
 export default function Pagination({ itemsPerPage, items, ChangePage }) {
   const [pageCount, setPageCount] = useState(0);
+  const [pageRange, setPageRange] = useState(0);
+
+  useEffect(() => handlePageRange(), []);
 
   useEffect(() => {
     setPageCount(
@@ -14,15 +17,28 @@ export default function Pagination({ itemsPerPage, items, ChangePage }) {
     ChangePage(event.selected + 1);
   };
 
+  function handlePageRange() {
+    if (window.innerWidth > 850) {
+      setPageRange(5);
+    } else {
+      setPageRange(0);
+    }
+  }
+
+  console.log(pageRange);
+
+  window.addEventListener('resize', handlePageRange);
+
   return (
-    <div className="pagination pagination-pages">
+    <div className='pagination'>
       <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
+        className='pagination-list'
+        breakLabel='...'
+        nextLabel='next >'
         onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={pageRange}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel='< previous'
         renderOnZeroPageCount={null}
       />
     </div>
