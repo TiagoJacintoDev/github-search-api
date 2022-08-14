@@ -11,8 +11,11 @@ import ProgressBar from '@ramonak/react-progress-bar';
 
 export default function App() {
   const key = process.env.REACT_APP_API_KEY;
-  const octokit = new Octokit({ auth: key });
+  const octokit = new Octokit({
+    auth: key,
+  });
 
+  const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const [query, setQuery] = useState({
@@ -42,6 +45,7 @@ export default function App() {
 
   useEffect(() => {
     query.text && fetch();
+    throwError(isLoading);
   }, [
     query?.type,
     query?.text,
@@ -112,6 +116,14 @@ export default function App() {
     }));
   }
 
+  function throwError(isLoading) {
+    if (isLoading) {
+      setTimeout(() => setError(true), 1000);
+    } else {
+      setError(false);
+    }
+  }
+
   return (
     <>
       {isLoading && (
@@ -123,13 +135,19 @@ export default function App() {
           borderRadius='0'
           isLabelVisible={false}
           labelColor='#e80909'
-          transitionDuration='120ms'
+          transitionDuration='200ms'
           animateOnRender
         />
       )}
       <div className='container'>
         <SearchBar data={data} QueryText={queryText} />
-        {data && (
+        {error && (
+          <h3 style={{ marginTop: '10px', fontSize: '22px' }}>
+            Rate of search exceeded, please wait a few seconds before trying
+            again.
+          </h3>
+        )}
+        {data && !error && (
           <>
             <div className='search-info'>
               <QuerySettings
