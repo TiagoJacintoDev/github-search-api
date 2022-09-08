@@ -9,7 +9,7 @@ export default function Code({ data }) {
             <img
               className='skeleton'
               src={item.repository?.owner?.avatar_url}
-            ></img>
+            />
             <a href={item.repository?.html_url}>{item.repository?.full_name}</a>
           </div>
 

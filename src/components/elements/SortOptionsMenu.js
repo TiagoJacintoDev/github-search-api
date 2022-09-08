@@ -3,7 +3,7 @@ export default function SortOptionsMenu({ SortOptions }) {
     <select
       className="sort-options-menu"
       name="sortOptions"
-      onClick={SortOptions}
+      onChange={SortOptions}
     >
       <optgroup label="Sort options">
         <option data-order="desc" data-sort="" value="bestMatch">

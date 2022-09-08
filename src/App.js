@@ -28,8 +28,6 @@ export default function App() {
     itemsPerPage: 10,
   });
 
-  console.log(query);
-
   const languages = query.languages.map(language => `+language%3A${language}`);
 
   const fetch = async () => {

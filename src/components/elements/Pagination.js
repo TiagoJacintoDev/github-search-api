@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
 export default function Pagination({ itemsPerPage, items, ChangePage }) {
@@ -24,8 +24,6 @@ export default function Pagination({ itemsPerPage, items, ChangePage }) {
       setPageRange(0);
     }
   }
-
-  console.log(pageRange);
 
   window.addEventListener('resize', handlePageRange);
 

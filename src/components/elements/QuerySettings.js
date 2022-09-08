@@ -4,7 +4,6 @@ export default function QuerySettings({
   QueryType,
   QueryLanguage,
   typeOfQuery,
-  Queryrefx,
 }) {
   return (
     <aside>
@@ -16,7 +15,7 @@ export default function QuerySettings({
       </ul>
       <h3>Languages</h3>
       <ul onClick={QueryLanguage}>
-        <li onClick={Queryrefx}>JavaScript</li>
+        <li>JavaScript</li>
         <li>Java</li>
         <li>HTML</li>
         <li>Python</li>
