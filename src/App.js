@@ -1,4 +1,3 @@
-import './App.css';
 import { Octokit } from '@octokit/core';
 import { useEffect, useMemo, useState } from 'react';
 import SearchBar from './components/elements/SearchBar';
@@ -10,10 +9,7 @@ import { debounce } from 'lodash';
 import ProgressBar from '@ramonak/react-progress-bar';
 
 export default function App() {
-  const key = process.env.REACT_APP_API_KEY;
-  const octokit = new Octokit({
-    auth: key,
-  });
+  const octokit = new Octokit();
 
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,20 +26,25 @@ export default function App() {
 
   const languages = query.languages.map(language => `+language%3A${language}`);
 
-  const fetch = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
-    const res = await octokit.request(
-      `GET /search/${query.type}?q=${query.text}${languages}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
-      {}
-    );
-    const data = await res.data;
-    setData(data);
-    setIsLoading(false);
+    try {
+      const res = await octokit.request(
+        `GET /search/${query.type}?q=${query.text}${languages}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
+        {}
+      );
+      const data = await res.data;
+      setData(data);
+    } catch {
+      setError(true);
+      setTimeout(() => setError(false), 30 * 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
-    query.text && fetch();
-    throwError(isLoading);
+    query.text && fetchData();
   }, [
     query?.type,
     query?.text,
@@ -52,6 +53,7 @@ export default function App() {
     query?.order,
     query?.page,
     query?.itemsPerPage,
+    error,
   ]);
 
   const debouncedFunctions = {
@@ -112,14 +114,6 @@ export default function App() {
       ...oldQuery,
       page: pageNumber,
     }));
-  }
-
-  function throwError(isLoading) {
-    if (isLoading) {
-      setTimeout(() => setError(true), 1000);
-    } else {
-      setError(false);
-    }
   }
 
   return (

@@ -1,5 +1,4 @@
 import Repository from './Repository';
-import Code from './Code';
 import Issues from './Issues';
 import Commits from './Commits';
 import SortOptionsMenu from '../elements/SortOptionsMenu';
@@ -34,7 +33,6 @@ export default function DisplayResults({
         {!isLoading && (
           <>
             {typeOfQuery === 'repositories' && <Repository data={data} />}
-            {typeOfQuery === 'code' && <Code data={data} />}
             {typeOfQuery === 'commits' && <Commits data={data} />}
             {typeOfQuery === 'issues' && <Issues data={data} />}
           </>
