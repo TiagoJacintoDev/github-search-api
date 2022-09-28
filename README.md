@@ -9,7 +9,7 @@ This is my first React JS application.
 * Pagination
 * Sort Options
 * Can chose between multiple languages
-* Select between Repositories, Code, Commits or Issues
+* Select between Repositories, Commits or Issues
 
 #### 🛠️ Built with 
  * React
