@@ -1,9 +1,11 @@
-import parseRegex from '../../parseRegex';
+import { ResultsData } from "../../context/ResultsContext";
+import removeSpecialCharacters from "../../helpers/removeSpecialCharacters";
 
-export default function Commits({ data }) {
+export default function Commits() {
+  const { results } = ResultsData();
   return (
     <div className="commits">
-      {data.items?.map(item => (
+      {results.items?.map((item) => (
         <div key={item.node_id} className="item">
           <span>
             <a
@@ -14,12 +16,14 @@ export default function Commits({ data }) {
               {item.repository?.full_name}
             </a>
           </span>
-          <a href={item.html_url}>{parseRegex(item.commit?.message)}</a>
+          <a href={item.html_url}>
+            {removeSpecialCharacters(item.commit?.message)}
+          </a>
           <span>
             <a className="profile" href={item.author?.html_url}>
               {item.commit?.author?.name}
             </a>
-            committed on {item.commit?.author?.date.split('T')[0]}
+            committed on {item.commit?.author?.date.split("T")[0]}
           </span>
           <span>
             <a href={item.html_url}>{item.sha?.slice(0, 7)}</a>

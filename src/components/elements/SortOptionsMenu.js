@@ -1,36 +1,20 @@
-export default function SortOptionsMenu({ SortOptions }) {
+import { QueryData } from "../../context/QueryContext";
+import { sortOptions } from "../../data/sortOptions";
+
+export default function SortOptionsMenu() {
+  const { sortResults } = QueryData();
   return (
     <select
       className="sort-options-menu"
       name="sortOptions"
-      onChange={SortOptions}
+      onChange={sortResults}
     >
       <optgroup label="Sort options">
-        <option data-order="desc" data-sort="" value="bestMatch">
-          Best match
-        </option>
-        <option data-order="desc" data-sort="stars" value="mostStars">
-          Most Stars
-        </option>
-        <option data-order="asc" data-sort="stars" value="fewestStars">
-          Fewest stars
-        </option>
-        <option data-order="desc" data-sort="forks" value="mostForks">
-          Most forks
-        </option>
-        <option data-order="asc" data-sort="forks" value="fewestForks">
-          Fewest forks
-        </option>
-        <option data-order="desc" data-sort="updated" value="recentlyUpdated">
-          Recently updated
-        </option>
-        <option
-          data-order="asc"
-          data-sort="updated"
-          value="leastRecentlyUpdated"
-        >
-          Least recently updated
-        </option>
+        {sortOptions.map((option) => (
+          <option key={option.id} value={`${option.order} ${option.sort}`}>
+            {option.name}
+          </option>
+        ))}
       </optgroup>
     </select>
   );

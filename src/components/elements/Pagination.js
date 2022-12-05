@@ -1,19 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate';
+import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
+import { QueryData } from "../../context/QueryContext";
+import { ResultsData } from "../../context/ResultsContext";
 
-export default function Pagination({ itemsPerPage, items, ChangePage }) {
+export default function Pagination() {
+  const { query, ChangePage } = QueryData();
+  const { results } = ResultsData();
+
   const [pageCount, setPageCount] = useState(0);
   const [pageRange, setPageRange] = useState(0);
 
-  useEffect(() => handlePageRange(), []);
-
   useEffect(() => {
     setPageCount(
-      Math.ceil(items >= 1000 ? 1000 / itemsPerPage : items / itemsPerPage)
+      Math.ceil(
+        results.total_count >= 1000
+          ? 1000 / query.itemsPerPage
+          : results.total_count / query.itemsPerPage
+      )
     );
-  }, [itemsPerPage, items]);
+  }, [query.itemsPerPage, results.total_count]);
 
-  const handlePageClick = event => {
+  useEffect(() => {
+    handlePageRange();
+    window.addEventListener("resize", handlePageRange);
+
+    return function cleanup() {
+      window.removeEventListener("resize", handlePageRange);
+    };
+  }, []);
+
+  const handlePageClick = (event) => {
     ChangePage(event.selected + 1);
   };
 
@@ -25,18 +41,16 @@ export default function Pagination({ itemsPerPage, items, ChangePage }) {
     }
   }
 
-  window.addEventListener('resize', handlePageRange);
-
   return (
-    <div className='pagination'>
+    <div className="pagination">
       <ReactPaginate
-        className='pagination-list'
-        breakLabel='...'
-        nextLabel='next >'
+        className="pagination-list"
+        breakLabel="..."
+        nextLabel="next >"
         onPageChange={handlePageClick}
         pageRangeDisplayed={pageRange}
         pageCount={pageCount}
-        previousLabel='< previous'
+        previousLabel="< previous"
         renderOnZeroPageCount={null}
       />
     </div>

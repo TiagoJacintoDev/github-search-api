@@ -1,22 +1,24 @@
-import { RiGitRepositoryLine } from 'react-icons/ri';
-import { FiStar } from 'react-icons/fi';
-import { BsFillCircleFill } from 'react-icons/bs';
-import parseRegex from '../../parseRegex';
+import { RiGitRepositoryLine } from "react-icons/ri";
+import { FiStar } from "react-icons/fi";
+import { BsFillCircleFill } from "react-icons/bs";
+import removeSpecialCharacters from "../../helpers/removeSpecialCharacters";
+import { ResultsData } from "../../context/ResultsContext";
 
-export default function Repository({ data }) {
+export default function Repository() {
+  const { results } = ResultsData();
   return (
     <div className="repository">
-      {data.items?.map(item => (
-        <div key={item.node_id} className="item">
+      {results.items?.map((item) => (
+        <div key={item.id} className="item">
           <a href={item.html_url}>
             <span>
               <RiGitRepositoryLine color="black" />
               {item.full_name}
             </span>
           </a>
-          <p>{parseRegex(item.description)}</p>
+          <p>{removeSpecialCharacters(item.description)}</p>
           <ul className="item-topics">
-            {item.topics?.map(topic => (
+            {item.topics?.map((topic) => (
               <li>{topic}</li>
             ))}
           </ul>
@@ -29,7 +31,7 @@ export default function Repository({ data }) {
               <BsFillCircleFill />
               {item.language}
             </span>
-            <span>Updated on {item.pushed_at?.split('T')[0]}</span>
+            <span>Updated on {item.pushed_at?.split("T")[0]}</span>
           </div>
         </div>
       ))}

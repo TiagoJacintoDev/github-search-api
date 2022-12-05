@@ -1,17 +1,16 @@
-export default function QuerySettings({
-  QueryType,
-  QueryLanguage,
-  typeOfQuery,
-}) {
+import { QueryData } from "../../context/QueryContext";
+
+export default function QuerySettings() {
+  const { query, queryType, queryLanguage } = QueryData();
   return (
     <aside>
-      <ul onClick={QueryType}>
-        <li data-current={typeOfQuery === 'repositories'}>Repositories</li>
-        <li data-current={typeOfQuery === 'commits'}>Commits</li>
-        <li data-current={typeOfQuery === 'issues'}>Issues</li>
+      <ul onClick={queryType}>
+        <li data-current={query.type === "repositories"}>Repositories</li>
+        <li data-current={query.type === "commits"}>Commits</li>
+        <li data-current={query.type === "issues"}>Issues</li>
       </ul>
       <h3>Languages</h3>
-      <ul onClick={QueryLanguage}>
+      <ul onClick={queryLanguage}>
         <li>JavaScript</li>
         <li>Java</li>
         <li>HTML</li>
