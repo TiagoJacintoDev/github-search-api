@@ -16,31 +16,42 @@ export default function SearchBar() {
     <header>
       {!results && (
         <>
-          <h2 style={{ marginBottom: "15px" }}>
+          <h2 className="search-bar-heading">
             Search for projects available on GitHub
           </h2>
           <h3>Suggestions: </h3>
-          <ul style={{ marginBlock: "15px", marginLeft: "17px" }}>
-            <li
-              style={{ cursor: "pointer" }}
-              onClick={() => searchFor("React")}
-            >
-              <a>React</a>
+          <ul className="search-bar-suggestions-list">
+            <li>
+              <a
+                className="search-bar-suggestion"
+                onClick={() => searchFor("React")}
+              >
+                React
+              </a>
             </li>
-            <li
-              style={{ cursor: "pointer" }}
-              onClick={() => searchFor("TypeScript")}
-            >
-              <a>TypeScript</a>
+            <li>
+              <a
+                className="search-bar-suggestion"
+                onClick={() => searchFor("TypeScript")}
+              >
+                TypeScript
+              </a>
             </li>
-            <li style={{ cursor: "pointer" }} onClick={() => searchFor("Jest")}>
-              <a>Jest</a>
+            <li>
+              <a
+                className="search-bar-suggestion"
+                onClick={() => searchFor("Jest")}
+              >
+                Jest
+              </a>
             </li>
-            <li
-              style={{ cursor: "pointer" }}
-              onClick={() => searchFor("Tailwind CSS")}
-            >
-              <a>Tailwind CSS</a>
+            <li>
+              <a
+                className="search-bar-suggestion"
+                onClick={() => searchFor("Tailwind CSS")}
+              >
+                Tailwind CSS
+              </a>
             </li>
           </ul>
         </>

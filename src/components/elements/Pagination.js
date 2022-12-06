@@ -4,7 +4,7 @@ import { QueryData } from "../../context/QueryContext";
 import { ResultsData } from "../../context/ResultsContext";
 
 export default function Pagination() {
-  const { query, ChangePage } = QueryData();
+  const { query, changePage } = QueryData();
   const { results } = ResultsData();
 
   const [pageCount, setPageCount] = useState(0);
@@ -30,11 +30,11 @@ export default function Pagination() {
   }, []);
 
   const handlePageClick = (event) => {
-    ChangePage(event.selected + 1);
+    changePage(event.selected + 1);
   };
 
   function handlePageRange() {
-    if (window.innerWidth > 850) {
+    if (window.innerWidth > 1000) {
       setPageRange(5);
     } else {
       setPageRange(0);

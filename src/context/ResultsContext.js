@@ -11,9 +11,10 @@ export function ResultsContextProvider({ children }) {
   const languages = query.languages.map(
     (language) => `+language%3A${language}`
   );
+  const queryText = query.text.replace(/ /g, "%20");
 
   const { data: results, ...data } = useOctokitFetch(
-    `GET /search/${query.type}?q=${query.text}${languages}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
+    `GET /search/${query.type}?q=${queryText}${languages}&sort=${query.sort}&order=${query.order}&page=${query.page}&per_page=${query.itemsPerPage}`,
     useMemo(() => query),
     query.text
   );

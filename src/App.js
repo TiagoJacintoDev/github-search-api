@@ -14,7 +14,7 @@ export default function App() {
       <div className="container">
         <SearchBar />
         {error && (
-          <h3 style={{ marginTop: "10px", fontSize: "22px" }}>
+          <h3 className="error-message">
             Rate of search exceeded, please wait a few seconds before trying
             again.
           </h3>
